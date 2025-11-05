@@ -53,6 +53,8 @@ def run_model():
 
     print("🎉 All done! Model trained and evaluated successfully.")
 
+    model.save("cancer_model.keras")
+
 
 def main():
     print("Hello from cancer!")
