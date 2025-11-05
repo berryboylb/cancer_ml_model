@@ -27,3 +27,7 @@ source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 
 # Install dependencies
 uv pip install pandas scikit-learn tensorflow matplotlib
+
+## 🖼️ Output
+![Model Output](images/output.png)
+
