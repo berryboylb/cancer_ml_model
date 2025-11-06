@@ -1,6 +1,10 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, classification_report
 import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def run_model():
@@ -51,9 +55,45 @@ def run_model():
         f"✅ Model evaluation complete.\n📈 Accuracy: {accuracy:.4f} | Loss: {loss:.4f}\n"
     )
 
-    print("🎉 All done! Model trained and evaluated successfully.")
+    # 🔍 Generate predictions
+    print("🔍 Generating predictions and confusion matrix...")
+    y_pred = model.predict(x_test)
+    y_pred_classes = (y_pred > 0.5).astype(int)
 
+    # 🧾 Compute confusion matrix
+    cm = confusion_matrix(y_test, y_pred_classes)
+    print("\n🧾 Confusion Matrix:")
+    print(cm)
+
+    # 📊 Print classification report
+    print("\n📊 Classification Report:")
+    print(classification_report(y_test, y_pred_classes))
+
+    # 📈 Visualize confusion matrix
+    plt.figure(figsize=(6, 4))
+    sns.heatmap(
+        cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=["Predicted Benign (0)", "Predicted Malignant (1)"],
+        yticklabels=["Actual Benign (0)", "Actual Malignant (1)"],
+    )
+    plt.title("Confusion Matrix")
+    plt.ylabel("Actual")
+    plt.xlabel("Predicted")
+    plt.tight_layout()
+
+    # Save confusion matrix image
+    plt.savefig("images/confusion_matrix.png")
+    plt.show()
+
+    # 💾 Save trained model
     model.save("cancer_model.keras")
+    print("\n💾 Model saved successfully as 'cancer_model.keras'.")
+    print(
+        "🎉 All done! Model trained, evaluated, and confusion matrix generated successfully."
+    )
 
 
 def main():
